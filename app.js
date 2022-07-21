@@ -44,7 +44,7 @@ operatorButtons.forEach((button) => {
 
         } else {
             calculation = operate(Function('"use strict";return (' + operation + ')').call(), 
-                parseInt(calculation), parseInt(display.textContent));  
+                parseFloat(calculation), parseFloat(display.textContent));  
         }
         operating = true;
         calculated = false;
@@ -56,7 +56,7 @@ equalButton.addEventListener('click', () => {
     //Calculate if we have an input and we are not making equals again
     if (input && !calculated) {
         calculation = operate(Function('"use strict";return (' + operation + ')').call(), 
-            parseInt(calculation), parseInt(display.textContent));
+            parseFloat(calculation), parseFloat(display.textContent));
         display.textContent = calculation;
     }
 
@@ -104,7 +104,8 @@ function multiply(array) {
 
 function divide(array) {
 	return array.reduce((total,num) => {
-        return total = total / num;
+        total = total / num;
+        return total.toFixed(4);
       });
 };
 

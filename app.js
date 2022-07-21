@@ -9,6 +9,8 @@ const display = document.querySelector(".display");
 const numberButtons = document.querySelectorAll(".number-button");
 const operatorButtons = document.querySelectorAll(".operator-button");
 const equalButton = document.querySelector("#equals");
+const clearButton = document.querySelector("#clear-button");
+const deleteButton = document.querySelector("#delete-button");
 
 
 //Listeners
@@ -53,6 +55,17 @@ equalButton.addEventListener('click', () => {
     calculated = true; //Finished calculation
 });
 
+clearButton.addEventListener('click', () => {
+    display.textContent = "0";
+    calculation = 0;
+});
+
+deleteButton.addEventListener('click', () => {
+    let length = display.textContent.length;
+    if (length === 1) display.textContent = "0";
+    else display.textContent = display.textContent.substring(0, length - 1);
+});
+
 
 //Basic Math Operators
 function add(array) {
@@ -86,5 +99,3 @@ function operate(operator, x, y) {
     let numbers = new Array(x,y);
     return operator(numbers);
 }
-
-console.log(subtract([3,2]))

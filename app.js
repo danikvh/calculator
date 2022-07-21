@@ -33,8 +33,8 @@ operatorButtons.forEach((button) => {
         else if (!input) { //Need a second number to operate, dont use the same!
 
         } else {
-            calculation = operate(eval(operation), 
-            parseInt(calculation), parseInt(display.textContent));   
+            calculation = operate(Function('"use strict";return (' + operation + ')').call(), 
+                parseInt(calculation), parseInt(display.textContent));  
         }
         operating = true;
         calculated = false;
@@ -44,7 +44,8 @@ operatorButtons.forEach((button) => {
 
 equalButton.addEventListener('click', () => {
     if (input && !calculated) {
-        calculation = operate(eval(operation), parseInt(calculation), parseInt(display.textContent));
+        calculation = operate(Function('"use strict";return (' + operation + ')').call(), 
+            parseInt(calculation), parseInt(display.textContent));
         display.textContent = calculation;
     }
     first = true; //Reset operation 

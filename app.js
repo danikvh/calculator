@@ -15,11 +15,11 @@ const equalButton = document.querySelector("#equals");
 numberButtons.forEach((button) => {
     button.addEventListener('click', () => {
         let actualNumber = display.textContent;
-        if (actualNumber === "0" || operating === true || calculated === true) actualNumber = "";
+        if (actualNumber === "0" || operating === true) actualNumber = "";
         actualNumber = actualNumber + button.textContent;
         display.textContent = actualNumber;
-        calculated = false;
         input = true;
+        operating = false;
     });
 });
 
@@ -38,12 +38,13 @@ operatorButtons.forEach((button) => {
             input = false;
         }
         operating = true;
+        calculated = false;
         display.textContent = calculation;
     });
 });
 
 equalButton.addEventListener('click', () => {
-    if (input && operating) {
+    if (input && !calculated) {
         calculation = operate(eval(operation), parseInt(calculation), parseInt(display.textContent));
         display.textContent = calculation;
     }
@@ -63,7 +64,7 @@ function add(array) {
 
 function subtract(array) {
 	return array.reduce((total, num) => {
-        return total -= num;
+        return total = total - num;
       }, 0);
 };
 

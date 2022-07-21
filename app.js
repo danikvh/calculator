@@ -3,6 +3,7 @@ let operation;
 let operating = false; //reset display when in an operation
 let first = true; //first iteration of an operation
 let calculated = false; //Pressed the equals button
+let input = false; //don't operate until new number is inputted
 
 const display = document.querySelector(".display");
 const numberButtons = document.querySelectorAll(".number-button");
@@ -18,19 +19,23 @@ numberButtons.forEach((button) => {
         actualNumber = actualNumber + button.textContent;
         display.textContent = actualNumber;
         calculated = false;
+        input = true;
     });
 });
 
 operatorButtons.forEach((button) => {
     button.addEventListener('click',() => {
         operation = button.getAttribute("id");
-        if (first) { 
+        if (first) { //First iteration
             calculation = display.textContent;
             first = false;
         }
-        else {
+        else if (!input) { //Need a second number to operate, dont use the same!
+
+        } else {
             calculation = operate(eval(operation), 
             parseInt(calculation), parseInt(display.textContent));
+            input = false;
         }
         operating = true;
         display.textContent = calculation;
@@ -38,11 +43,14 @@ operatorButtons.forEach((button) => {
 });
 
 equalButton.addEventListener('click', () => {
-    calculation = operate(eval(operation), parseInt(calculation), parseInt(display.textContent));
-    display.textContent = calculation;
-    first = true;
-    operating = false;
-    calculated = true;
+    if (input && operating) {
+        calculation = operate(eval(operation), parseInt(calculation), parseInt(display.textContent));
+        display.textContent = calculation;
+    }
+    first = true; //Reset operation 
+    operating = false; //Reset operation
+    calculated = true; //Finished calculation
+    input = false; //No input
 });
 
 

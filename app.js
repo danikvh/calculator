@@ -34,8 +34,7 @@ operatorButtons.forEach((button) => {
 
         } else {
             calculation = operate(eval(operation), 
-            parseInt(calculation), parseInt(display.textContent));
-            input = false;
+            parseInt(calculation), parseInt(display.textContent));   
         }
         operating = true;
         calculated = false;
@@ -51,7 +50,6 @@ equalButton.addEventListener('click', () => {
     first = true; //Reset operation 
     operating = false; //Reset operation
     calculated = true; //Finished calculation
-    input = false; //No input
 });
 
 
@@ -65,7 +63,7 @@ function add(array) {
 function subtract(array) {
 	return array.reduce((total, num) => {
         return total = total - num;
-      }, 0);
+      });
 };
 
 function multiply(array) {
@@ -83,6 +81,9 @@ function divide(array) {
 
 //Operate
 function operate(operator, x, y) {
+    input = false;
     let numbers = new Array(x,y);
     return operator(numbers);
 }
+
+console.log(subtract([3,2]))

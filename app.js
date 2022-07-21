@@ -1,4 +1,4 @@
-const error = "ERROR. Number too big"
+const error = "ERROR. Too big"
 
 let calculation;
 let operation;
@@ -19,13 +19,13 @@ const deleteButton = document.querySelector("#delete-button");
 numberButtons.forEach((button) => {
     button.addEventListener('click', () => {
         let actualNumber = display.textContent;
-        if (actualNumber === error) {
-            actualNumber = "";
-        } else if (actualNumber.length > 10) { 
+        if (actualNumber.length > 12 && actualNumber !== error) { 
             display.textContent = error;
             return;
         }
-        if (actualNumber === "0" || operating === true) actualNumber = "";
+        if (actualNumber === "0" || operating === true || actualNumber === error) {
+            actualNumber = "";
+        }
         actualNumber = actualNumber + button.textContent;
         display.textContent = actualNumber;
         input = true;
@@ -61,11 +61,9 @@ equalButton.addEventListener('click', () => {
     }
 
     //ERROR big number
-    let actualNumber = display.textContent;
-    if (actualNumber === error) {
-        actualNumber = "";
-    } else if (actualNumber.length > 10) { 
+    if (display.textContent.length > 10) { 
         display.textContent = error;
+        calculation = 0;
         return;
     }
 

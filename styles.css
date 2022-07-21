@@ -9,8 +9,8 @@ body {
 .calculator {
     border: 3px solid black;
     border-radius: 10px;
-    height: 400px;
-    width: 300px;
+    height: 500px;
+    width: 400px;
     padding: 20px;
     background-color: #2C3333;
     display: flex;
@@ -21,10 +21,10 @@ body {
 
 .screen {
     background-color: #E7F6F2;
-    width: 280px;
+    width: 380px;
     height: 80px;
     font-size: 40px;
-    font-family: monospace;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     display: flex;
     align-items: center;
     justify-content: right;
@@ -32,23 +32,23 @@ body {
 }
 
 .display {
-    margin: 0px 20px;
+    margin: 0px 30px;
     display: flex;
     justify-content: right;
     align-items: center;
     width: 150px;
-    word-wrap: break-word;
+    white-space: nowrap;
 }
 
 button {
-    --size: 47px;
+    --size: 60px;
     width: calc(var(--size) * 1.3);
     height: var(--size);
     background-color: #A5C9CA;
     border: none;
     border-radius: 2px;
     margin: 0px 3px;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: 500;
     border: 2px solid black;
 }

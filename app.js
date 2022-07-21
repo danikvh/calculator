@@ -61,10 +61,9 @@ equalButton.addEventListener('click', () => {
     }
 
     //ERROR big number
-    if (display.textContent.length > 10) { 
+    if (display.textContent.length > 12) { 
         display.textContent = error;
         calculation = 0;
-        return;
     }
 
     first = true; //Reset operation 

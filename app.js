@@ -1,3 +1,5 @@
+const error = "ERROR. Number too big"
+
 let calculation;
 let operation;
 let operating = false; //reset display when in an operation
@@ -17,6 +19,12 @@ const deleteButton = document.querySelector("#delete-button");
 numberButtons.forEach((button) => {
     button.addEventListener('click', () => {
         let actualNumber = display.textContent;
+        if (actualNumber === error) {
+            actualNumber = "";
+        } else if (actualNumber.length > 10) { 
+            display.textContent = error;
+            return;
+        }
         if (actualNumber === "0" || operating === true) actualNumber = "";
         actualNumber = actualNumber + button.textContent;
         display.textContent = actualNumber;
@@ -45,11 +53,22 @@ operatorButtons.forEach((button) => {
 });
 
 equalButton.addEventListener('click', () => {
+    //Calculate if we have an input and we are not making equals again
     if (input && !calculated) {
         calculation = operate(Function('"use strict";return (' + operation + ')').call(), 
             parseInt(calculation), parseInt(display.textContent));
         display.textContent = calculation;
     }
+
+    //ERROR big number
+    let actualNumber = display.textContent;
+    if (actualNumber === error) {
+        actualNumber = "";
+    } else if (actualNumber.length > 10) { 
+        display.textContent = error;
+        return;
+    }
+
     first = true; //Reset operation 
     operating = false; //Reset operation
     calculated = true; //Finished calculation

@@ -1,3 +1,17 @@
+const display = document.querySelector(".display");
+const numberButtons = document.querySelectorAll(".number-button");
+
+
+//Listeners
+numberButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+        let actualNumber = display.textContent;
+        actualNumber = actualNumber + button.textContent;
+        display.textContent = actualNumber;
+    });
+});
+
+
 //Basic Math Operators
 function add(array) {
 	return array.reduce((total, num) => {
@@ -29,3 +43,4 @@ function operate(operator, x, y) {
     let numbers = new Array(x,y);
     return operator(numbers);
 }
+

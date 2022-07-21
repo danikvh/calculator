@@ -1,3 +1,4 @@
+//Basic Math Operators
 function add(array) {
 	return array.reduce((total, num) => {
         return total += num;
@@ -21,3 +22,10 @@ function divide(array) {
         return total = total / num;
       });
 };
+
+
+//Operate
+function operate(operator, x, y) {
+    let numbers = new Array(x,y);
+    return operator(numbers);
+}

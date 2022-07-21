@@ -6,6 +6,7 @@ const numberButtons = document.querySelectorAll(".number-button");
 numberButtons.forEach((button) => {
     button.addEventListener('click', () => {
         let actualNumber = display.textContent;
+        if (actualNumber === "0") actualNumber = "";
         actualNumber = actualNumber + button.textContent;
         display.textContent = actualNumber;
     });

@@ -1,15 +1,23 @@
-function add(x, y) {
-	return x + y;
+function add(array) {
+	return array.reduce((total, num) => {
+        return total += num;
+      }, 0);
 };
 
-function subtract(x, y) {
-	return x - y;
+function subtract(array) {
+	return array.reduce((total, num) => {
+        return total -= num;
+      }, 0);
 };
 
 function multiply(array) {
-    return x * y;
+  return array.reduce((total,num) => {
+    return total = total * num;
+  }, 1);
 };
 
 function divide(array) {
-	return x / y;
+	return array.reduce((total,num) => {
+        return total = total / num;
+      });
 };

@@ -74,3 +74,15 @@ button:active {
     color: white;
     background-color: #051720;
 }
+
+.operator-button {
+    background-color: #40ced3;
+}
+
+.operator-button:hover {
+    background-color: #20acb1;
+}
+
+.operator-button:active {
+    background-color: #008a90;
+}

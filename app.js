@@ -18,79 +18,17 @@ const deleteButton = document.querySelector("#delete-button");
 
 
 //Listeners
-numberButtons.forEach((button) => {
-    button.addEventListener('click', () => {
-        let actualNumber = display.textContent;
-        if (button.textContent === '.' && actualNumber.includes('.')) return 
-        if (actualNumber.length > 12 && actualNumber !== error) { 
-            display.textContent = error;
-            return;
-        }
-        if (actualNumber === "0" || operating === true || actualNumber === error) {
-            actualNumber = "";
-        }
-        actualNumber = actualNumber + button.textContent;
-        display.textContent = actualNumber;
-        input = true;
-        operating = false;
-    });
-});
+numberButtons.forEach((button) => 
+    button.addEventListener('click', () => introduceNumber(button.textContent))
+);
 
-operatorButtons.forEach((button) => {
-    button.addEventListener('click',() => {
-        updatePreviousOperation()
-        operation = button.getAttribute("id"); 
-        if (first) { //First iteration
-            calculation = display.textContent;
-            first = false;
-        } else if (!input) { //Need a second number to operate, dont use the same!
-        } else {
-            if (operation !== previousOperation) {
-                hangingOperation = operation;
-                operation = previousOperation;
-            }
-            calculation = operate(Function('"use strict";return (' + operation + ')').call(), 
-                parseFloat(calculation), parseFloat(display.textContent)); 
-        }
-        operating = true;
-        calculated = false;
-        display.textContent = calculation;
-    });
-});
+operatorButtons.forEach((button) => 
+    button.addEventListener('click', () => setOperator(button.getAttribute("id")))
+);
 
-equalButton.addEventListener('click', () => {
-    updatePreviousOperation()
-    if (operation !== previousOperation) {
-        operation = previousOperation;
-    }
-    //Calculate if we have an input and we are not making equals again
-    if (input && !calculated) {
-        calculation = operate(Function('"use strict";return (' + operation + ')').call(), 
-            parseFloat(calculation), parseFloat(display.textContent));
-        display.textContent = calculation;
-    }
-
-    //ERROR big number
-    if (display.textContent.length > 12) { 
-        display.textContent = error;
-        calculation = 0;
-    }
-
-    first = true; //Reset operation 
-    operating = false; //Reset operation
-    calculated = true; //Finished calculation
-});
-
-clearButton.addEventListener('click', () => {
-    display.textContent = "0";
-    calculation = 0;
-});
-
-deleteButton.addEventListener('click', () => {
-    let length = display.textContent.length;
-    if (length === 1) display.textContent = "0";
-    else display.textContent = display.textContent.substring(0, length - 1);
-});
+equalButton.addEventListener('click', evaluate);
+clearButton.addEventListener('click', clear);
+deleteButton.addEventListener('click', deletion);
 
 
 //Basic Math Operators
@@ -134,4 +72,76 @@ function updatePreviousOperation() {
     } else { //operation is not overriden
         previousOperation = operation;
     }
+}
+
+
+//Buttons
+function introduceNumber(number) {
+    let actualNumber = display.textContent;
+        if (number === '.' && actualNumber.includes('.')) return 
+        if (actualNumber.length > 12 && actualNumber !== error) { 
+            display.textContent = error;
+            return;
+        }
+        if (actualNumber === "0" || operating === true || actualNumber === error) {
+            actualNumber = "";
+        }
+        actualNumber = actualNumber + number;
+        display.textContent = actualNumber;
+        input = true;
+        operating = false;
+}
+
+function setOperator(op) {
+    updatePreviousOperation()
+        operation = op; 
+        if (first) { //First iteration
+            calculation = display.textContent;
+            first = false;
+        } else if (!input) { //Need a second number to operate, dont use the same!
+        } else {
+            if (operation !== previousOperation) {
+                hangingOperation = operation;
+                operation = previousOperation;
+            }
+            calculation = operate(Function('"use strict";return (' + operation + ')').call(), 
+                parseFloat(calculation), parseFloat(display.textContent)); 
+        }
+        operating = true;
+        calculated = false;
+        display.textContent = calculation;
+}
+
+function evaluate() {
+    updatePreviousOperation()
+    if (operation !== previousOperation) {
+        operation = previousOperation;
+    }
+    //Calculate if we have an input and we are not making equals again
+    if (input && !calculated) {
+        calculation = operate(Function('"use strict";return (' + operation + ')').call(), 
+            parseFloat(calculation), parseFloat(display.textContent));
+        display.textContent = calculation;
+    }
+
+    //ERROR big number
+    if (display.textContent.length > 12) { 
+        display.textContent = error;
+        calculation = 0;
+    }
+
+    first = true; //Reset operation 
+    operating = false; //Reset operation
+    calculated = true; //Finished calculation
+}
+
+function clear() {
+    display.textContent = "0";
+    calculation = 0;
+}
+
+function deletion() {
+    let length = display.textContent.length;
+    if (length === 1) display.textContent = "0";
+    else display.textContent = display.textContent.substring(0, length - 1);
 }

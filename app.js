@@ -2,6 +2,8 @@ const error = "ERROR. Too big"
 
 let calculation;
 let operation;
+let previousOperation; //used when chaining operations
+let hangingOperation = ""; //used when chaining operations
 let operating = false; //reset display when in an operation
 let first = true; //first iteration of an operation
 let calculated = false; //Pressed the equals button
@@ -35,16 +37,19 @@ numberButtons.forEach((button) => {
 
 operatorButtons.forEach((button) => {
     button.addEventListener('click',() => {
-        operation = button.getAttribute("id");
+        updatePreviousOperation()
+        operation = button.getAttribute("id"); 
         if (first) { //First iteration
             calculation = display.textContent;
             first = false;
-        }
-        else if (!input) { //Need a second number to operate, dont use the same!
-
+        } else if (!input) { //Need a second number to operate, dont use the same!
         } else {
+            if (operation !== previousOperation) {
+                hangingOperation = operation;
+                operation = previousOperation;
+            }
             calculation = operate(Function('"use strict";return (' + operation + ')').call(), 
-                parseFloat(calculation), parseFloat(display.textContent));  
+                parseFloat(calculation), parseFloat(display.textContent)); 
         }
         operating = true;
         calculated = false;
@@ -53,6 +58,10 @@ operatorButtons.forEach((button) => {
 });
 
 equalButton.addEventListener('click', () => {
+    updatePreviousOperation()
+    if (operation !== previousOperation) {
+        operation = previousOperation;
+    }
     //Calculate if we have an input and we are not making equals again
     if (input && !calculated) {
         calculation = operate(Function('"use strict";return (' + operation + ')').call(), 
@@ -115,4 +124,13 @@ function operate(operator, x, y) {
     input = false;
     let numbers = new Array(x,y);
     return operator(numbers);
+}
+
+function updatePreviousOperation() {
+    if (hangingOperation !== "") { //operation gets overriden
+        previousOperation = hangingOperation;
+        hangingOperation = "";
+    } else { //operation is not overriden
+        previousOperation = operation;
+    }
 }

@@ -29,6 +29,7 @@ operatorButtons.forEach((button) =>
 equalButton.addEventListener('click', evaluate);
 clearButton.addEventListener('click', clear);
 deleteButton.addEventListener('click', deletion);
+window.addEventListener('keydown', handleKeyboard);
 
 
 //Basic Math Operators
@@ -78,38 +79,38 @@ function updatePreviousOperation() {
 //Buttons
 function introduceNumber(number) {
     let actualNumber = display.textContent;
-        if (number === '.' && actualNumber.includes('.')) return 
-        if (actualNumber.length > 12 && actualNumber !== error) { 
-            display.textContent = error;
-            return;
-        }
-        if (actualNumber === "0" || operating === true || actualNumber === error) {
-            actualNumber = "";
-        }
-        actualNumber = actualNumber + number;
-        display.textContent = actualNumber;
-        input = true;
-        operating = false;
+    if (number === '.' && actualNumber.includes('.')) return 
+    if (actualNumber.length > 12 && actualNumber !== error) { 
+        display.textContent = error;
+        return;
+    }
+    if (actualNumber === "0" || operating === true || actualNumber === error) {
+        actualNumber = "";
+    }
+    actualNumber = actualNumber + number;
+    display.textContent = actualNumber;
+    input = true;
+    operating = false;
 }
 
 function setOperator(op) {
     updatePreviousOperation()
-        operation = op; 
-        if (first) { //First iteration
-            calculation = display.textContent;
-            first = false;
-        } else if (!input) { //Need a second number to operate, dont use the same!
-        } else {
-            if (operation !== previousOperation) {
-                hangingOperation = operation;
-                operation = previousOperation;
-            }
-            calculation = operate(Function('"use strict";return (' + operation + ')').call(), 
-                parseFloat(calculation), parseFloat(display.textContent)); 
+    operation = op; 
+    if (first) { //First iteration
+        calculation = display.textContent;
+        first = false;
+    } else if (!input) { //Need a second number to operate, dont use the same!
+    } else {
+        if (operation !== previousOperation) {
+            hangingOperation = operation;
+            operation = previousOperation;
         }
-        operating = true;
-        calculated = false;
-        display.textContent = calculation;
+        calculation = operate(Function('"use strict";return (' + operation + ')').call(), 
+            parseFloat(calculation), parseFloat(display.textContent)); 
+    }
+    operating = true;
+    calculated = false;
+    display.textContent = calculation;
 }
 
 function evaluate() {
@@ -144,4 +145,15 @@ function deletion() {
     let length = display.textContent.length;
     if (length === 1) display.textContent = "0";
     else display.textContent = display.textContent.substring(0, length - 1);
+}
+
+function handleKeyboard(e) {
+    if ((e.key >= 0 && e.key <= 9) || e.key === '.') introduceNumber(e.key)
+    else if (e.key === '+') setOperator(add)
+    else if (e.key === '-') setOperator(subtract)
+    else if (e.key === '*') setOperator(multiply)
+    else if (e.key === '/') setOperator(divide)
+    else if (e.key === 'Enter' || e.key === '=') evaluate()
+    else if (e.key === 'Backspace') deletion()
+    else if (e.key === 'Escape') clear()
 }

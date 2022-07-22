@@ -21,6 +21,7 @@ const deleteButton = document.querySelector("#delete-button");
 numberButtons.forEach((button) => {
     button.addEventListener('click', () => {
         let actualNumber = display.textContent;
+        if (button.textContent === '.' && actualNumber.includes('.')) return 
         if (actualNumber.length > 12 && actualNumber !== error) { 
             display.textContent = error;
             return;
@@ -114,7 +115,7 @@ function multiply(array) {
 function divide(array) {
 	return array.reduce((total,num) => {
         total = total / num;
-        return total.toFixed(4);
+        return total.toFixed(2);
       });
 };
 
